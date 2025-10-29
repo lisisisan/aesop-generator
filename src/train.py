@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, TensorDataset
 import matplotlib.pyplot as plt
+from torch.utils.tensorboard import SummaryWriter
 import os
 
 # -----------------------
@@ -50,7 +51,13 @@ optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 criterion = nn.CrossEntropyLoss()
 
 # -----------------------
-# 3. Обучение с логированием loss
+# 3. TensorBoard
+# -----------------------
+os.makedirs("logs/tensorboard", exist_ok=True)
+writer = SummaryWriter(log_dir="logs/tensorboard")
+
+# -----------------------
+# 4. Обучение с логированием loss
 # -----------------------
 losses = []
 
@@ -67,8 +74,13 @@ for epoch in range(20):
     losses.append(avg_loss)
     print(f"Epoch {epoch+1}, Loss: {avg_loss:.4f}")
 
+    # логируем в TensorBoard
+    writer.add_scalar("Loss/train", avg_loss, epoch)
+
+writer.close()
+
 # -----------------------
-# 4. Сохраняем модель
+# 5. Сохраняем модель
 # -----------------------
 os.makedirs("data/aesop", exist_ok=True)
 torch.save({
@@ -78,7 +90,7 @@ torch.save({
 }, "data/aesop/lstm_aesop.pt")
 
 # -----------------------
-# 5. Сохраняем график loss
+# 6. Сохраняем график loss в PNG
 # -----------------------
 os.makedirs("logs", exist_ok=True)
 plt.figure(figsize=(8,5))
