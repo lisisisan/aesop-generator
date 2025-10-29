@@ -32,7 +32,7 @@ aesop-generator/
 │       ├── data.txt              # исходный текст басен
 │       └── data_processed.txt    # обработанный текст
 ├── scripts/
-│   └── download_aesop.sh         # скрипт скачивания (опционально)
+│   └── download_aesop.sh         # скрипт скачивания 
 ├── src/
 │   ├── preprocess.py             # подготовка текста
 │   ├── train.py                  # обучение модели и сохранение PNG графика
